@@ -570,7 +570,79 @@
 .recuadro:hover .recuadro-info {
   opacity: 1; /* Se vuelve visible al pasar el mouse */
 }
+
+/* --- ESTILOS DEL PIE DE PÁGINA --- */
+.site-footer {
+  background-color: #f8f6ee; /* Un color de tu paleta */
+  color: #333; /* Texto oscuro para que contraste */
+  padding: 50px 0;
+  border-top: 1px solid #ddd;
+  font-family: 'Helvetica Neue', sans-serif;
+}
+
+.footer-container {
+  display: flex;
+  justify-content: space-around; /* Distribuye las columnas */
+  flex-wrap: wrap;           /* Se apilan en pantallas pequeñas */
+  gap: 30px;
+  padding: 0 40px;           /* Evita que el contenido toque los bordes */
+  max-width: 1200px;
+  margin: 0 auto;            /* Centra el contenedor */
+}
+
+.footer-column {
+  flex: 1;           /* Cada columna trata de tomar el mismo espacio */
+  min-width: 220px;  /* Ancho mínimo antes de que se apilen */
+  max-width: 300px;
+}
+
+.footer-column h4 {
+  color: #1c366e; /* Color de acento de tu paleta */
+  margin-bottom: 20px;
+  font-size: 1.1em;
+  border-bottom: 2px solid #ddd; /* Línea sutil bajo el título */
+  padding-bottom: 10px;
+}
+
+.footer-column p {
+  line-height: 1.6;
+  font-size: 0.95em;
+  margin-bottom: 10px;
+}
+
+/* Estilos para los enlaces */
+.footer-column a {
+  color: #333; /* Color negro/oscuro */
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.footer-column a:hover {
+  color: #357ab8; /* Color de acento al pasar el mouse */
+  text-decoration: underline;
+}
+
+/* Estilos para la lista de navegación */
+.footer-column ul {
+  list-style: none;
+  padding: 0;
+}
+
+.footer-column ul li {
+  margin-bottom: 10px;
+}
+
+/* Estilos para la barra inferior de copyright */
+.footer-bottom {
+  text-align: center;
+  margin-top: 40px;
+  padding-top: 20px;
+  border-top: 1px solid #eee;
+  font-size: 0.9em;
+  color: #777;
+}
 /* Scroll suave */
 html {
   scroll-behavior: smooth;
+
 }
