@@ -1,0 +1,612 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora</title>
+    <link rel="stylesheet" href="CSS/style.css">
+</head>
+<body>
+
+    <!-- Barra de navegación -->
+    <header class="navbar">
+        <div class="logo"><a class="link" href="#MenuInicio">GeoAlgebra</a></div>
+        <nav>
+  <div class="nav-iconos">
+    
+    <a href="https://www.umg.edu.gt/">
+    <img src="CSS/IMG/LogoUMG.png" alt="Nosotros" class="nav-icon">
+</a> 
+     
+  </div>
+</nav>
+        <button class="btn-empezar">Empezar</button>
+    </header>
+
+    <!-- Sección principal -->
+<section id="MenuInicio" class="hero">
+    <div class="hero-content" >
+        <p class="subtitulo">Proyecto Algebra Lineal</p>
+          <h1 class="titulo">Matriz Gauss Jordan</h1>
+          <a href="#historia"> <button class="btn-comenzar" >COMENZAR</button> </a>
+    </div>
+</section>
+    <!-- Navegación - Menu que acompaña por toda la pagina -->
+    <div class="hero-nav">
+        <a href="#historia">Historia</a>
+        <a href="#instrucciones">Instrucciones</a>
+        <a href="#calculadora">Calculadora</a>
+        <a href="#proyecto">Proyecto</a>
+    </div>
+
+<!-- Section Historia -->      
+<section id="historia" class="section">
+  <h2>Historia</h2>
+  <div class="historia-contenido">
+  <!-- Imagen y nombre de GAUSS -->   
+    <div class="autor">
+      <img class="ImgMat izquierda" src="CSS/IMG/GaussAnimado.png" alt="Gauss animado">
+      <p class="nombre">Carl Friedrich Gauss</p>
+    </div>
+  <!-- Texto Centro Seccion Historia -->   
+    <div class="texto-centro">
+      <p>
+        El método de eliminación de Gauss fue desarrollado por Carl Friedrich Gauss para resolver sistemas de ecuaciones lineales 
+        mediante transformaciones matriciales. Más tarde, Wilhelm Jordan extendió este método para llevar la matriz a una forma reducida, 
+        permitiendo resolver sistemas directamente y calcular inversas. Esta evolución dio lugar al método conocido como Gauss-Jordan.
+      </p>
+    </div>
+  <!-- Imagen y nombre de Jordan -->     
+    <div class="autor">
+      <img class="ImgMat derecha" src="CSS/IMG/JordanAnimado.png" alt="Jordan animado">
+      <p class="nombre">Wilhelm Jordan</p>
+    </div>
+    
+  </div>
+</section>
+
+<!-- Section instrucciones -->  
+<section id="instrucciones" class="section">
+  <h2>Instrucciones</h2>
+  
+  <div class="instrucciones-contenido">
+    
+    <div class="texto-instrucciones">
+      <h2>¿Como usar la calcualdora?</h2>
+      <ol>
+        <li> Dirigite hacia la seccion de "Calculadora".</li>
+        <li> Haz clic en uno de los botones para generar 
+          la cuadrícula correspondiente al tamaño de tu sistema de ecuaciones.</li> 
+        <li> Ingresa los Valores en cada una de las casillas. Asegúrate de incluir los términos 
+          independientes en la última columna.</li>
+        <li> Una vez que todos los campos estén completos, 
+          presiona el botón "Calcular" para iniciar el algoritmo de Gauss-Jordan.</li>
+         <li>La caja de resultados se llenará automáticamente, 
+          mostrándote cada paso que realiza el método.</li> 
+      </ol>
+   </div>
+    
+    <div class="galeria-minimalista"> <div class="galeria-carrusel"> 
+        <img src="CSS/IMG/Paso1Imagen.png" alt="Foto de galería 1">
+        <img src="CSS/IMG/Paso2Imagen.png" alt="Foto de galería 2">
+        <img src="CSS/IMG/Paso3Imagen.png" alt="Foto de galería 3">
+        <img src="CSS/IMG/Paso4Imagen.png" alt="Foto de galería 4">
+      </div>
+    </div>
+    
+  </div>
+</section>
+
+<!-- Section Calculadora -->  
+<section id="calculadora" class="section">
+  <h2>Calculadora</h2>
+<!-- Botones de la Calculadora -->  
+  <div class="panel-superior">
+    <div class="botones-tamano">
+      <button onclick="generarMatriz2x2()">2×2</button>
+      <button onclick="generarMatriz3x3()">3×3</button>
+      <button onclick="generarMatriz4x4()">4×4</button>
+      <button onclick="generarMatriz5x5()">5×5</button>
+    </div>
+    <div class="separador">|</div>
+    <div class="boton-calcular">
+<!-- Boton de Calcular -->        
+      <button onclick="resolverSistema()">Calcular</button>
+    </div>
+  </div>
+  <div class="panel-resultado">
+    <h3 id="titulo-sistema">Ingresa los valores del sistema:</h3>
+    <div id="matriz-caja" class="matriz-caja"></div>
+    <div id="resultado" class="resultado-caja"></div>
+  </div>
+</section>
+
+<!-- SCRIPT: Sistema 2×2 -->
+<script>
+function generarMatriz2x2() {
+  sistemaActual = "2x2";
+  const caja = document.getElementById("matriz-caja");
+  caja.innerHTML = "";
+  document.getElementById("resultado").innerHTML = "";
+  document.getElementById("titulo-sistema").textContent = "Sistema 2×2: Ingresa los valores";
+
+  const nombres = [
+    ["x1", "x2", "r1"],
+    ["y1", "y2", "r2"]
+  ];
+
+  for (let i = 0; i < 2; i++) {
+    for (let j = 0; j < 3; j++) {
+      const input = document.createElement("input");
+      input.type = "number";
+      input.placeholder = nombres[i][j];
+      input.id = `m${i}${j}`;
+      caja.appendChild(input);
+    }
+  }
+
+  caja.style.gridTemplateColumns = "repeat(3, 80px)";
+}
+
+function resolverSistema2x2() {
+  const ids = ["m00", "m01", "m02", "m10", "m11", "m12"];
+  const valores = ids.map(id => parseFloat(document.getElementById(id)?.value));
+
+  if (valores.some(isNaN)) {
+    alert("Por favor, completa todos los campos.");
+    return;
+  }
+
+  let [a1, b1, c1, a2, b2, c2] = valores;
+  let m = [
+    [a1, b1, c1],
+    [a2, b2, c2]
+  ];
+
+  const resultado = document.getElementById("resultado");
+  resultado.innerHTML = "";
+
+  mostrarPaso("Matriz inicial", m);
+
+  let pivote1 = m[0][0];
+  for (let j = 0; j < 3; j++) m[0][j] /= pivote1;
+  mostrarPaso("Paso 1: Pivote 1 → 1", m);
+
+  let factor = m[1][0];
+  for (let j = 0; j < 3; j++) m[1][j] -= factor * m[0][j];
+  mostrarPaso("Paso 2: Eliminar debajo del pivote", m);
+
+  let pivote2 = m[1][1];
+  for (let j = 0; j < 3; j++) m[1][j] /= pivote2;
+  mostrarPaso("Paso 3: Pivote 2 → 1", m);
+
+  factor = m[0][1];
+  for (let j = 0; j < 3; j++) m[0][j] -= factor * m[1][j];
+  mostrarPaso("Paso 4: Eliminar arriba del pivote", m);
+
+  let x = m[0][2];
+  let y = m[1][2];
+
+  const solucion = document.createElement("div");
+  solucion.className = "resultado-final";
+  solucion.innerHTML = `<strong>Solución final:</strong><br>x = ${x.toFixed(2)}<br>y = ${y.toFixed(2)}`;
+  resultado.appendChild(solucion);
+}
+</script>
+
+<!-- SCRIPT: Sistema 3x3 -->
+<script>
+function generarMatriz3x3() {
+  sistemaActual = "3x3";
+  const caja = document.getElementById("matriz-caja");
+  caja.innerHTML = "";
+  document.getElementById("resultado").innerHTML = "";
+  document.getElementById("titulo-sistema").textContent = "Sistema 3×3: Ingresa los valores";
+
+  // Bucle de 3 filas
+  for (let i = 0; i < 3; i++) {
+    // Bucle de 4 columnas (3 de variables + 1 de resultado)
+    for (let j = 0; j < 4; j++) {
+      const input = document.createElement("input");
+      input.type = "number";
+      input.placeholder = j < 3 ? `a${i+1}${j+1}` : `b${i+1}`;
+      input.id = `m${i}${j}`;
+      caja.appendChild(input);
+    }
+  }
+  // Ajusta la cuadrícula a 4 columnas
+  caja.style.gridTemplateColumns = "repeat(4, 80px)";
+}
+
+function resolverSistema3x3() {
+  const resultado = document.getElementById("resultado");
+  resultado.innerHTML = "";
+
+  const n = 3; // <-- La variable clave es 3
+  const A = [];
+
+  // Capturar matriz aumentada
+  for (let i = 0; i < n; i++) {
+    const fila = [];
+    for (let j = 0; j < n + 1; j++) {
+      const val = parseFloat(document.getElementById(`m${i}${j}`)?.value);
+      if (isNaN(val)) {
+        alert("Por favor, completa todos los campos.");
+        return;
+      }
+      fila.push(val);
+    }
+    A.push(fila);
+  }
+
+  mostrarPaso("Matriz aumentada inicial", JSON.parse(JSON.stringify(A)));
+
+  // Algoritmo de Gauss-Jordan (copiado de tu 4x4)
+  for (let i = 0; i < n; i++) {
+    
+    // 1. Pivoteo
+    if (Math.abs(A[i][i]) < 1e-9) {
+      let cambio = false;
+      for (let k = i + 1; k < n; k++) {
+        if (Math.abs(A[k][i]) > 1e-9) {
+          [A[i], A[k]] = [A[k], A[i]];
+          cambio = true;
+          mostrarPaso(`Intercambio F${i+1} ↔ F${k+1}`, JSON.parse(JSON.stringify(A)));
+          break;
+        }
+      }
+      if (!cambio) {
+        resultado.innerHTML = "<strong>El sistema no tiene solución única.</strong>";
+        return;
+      }
+    }
+
+    // 2. Normalizar
+    let pivote = A[i][i];
+    if (Math.abs(pivote - 1.0) > 1e-9) {
+      for (let j = 0; j < n + 1; j++) A[i][j] /= pivote;
+      mostrarPaso(`Normalizar F${i+1} (F${i+1} / ${pivote.toFixed(2)})`, JSON.parse(JSON.stringify(A)));
+    }
+
+    // 3. Eliminar
+    for (let k = 0; k < n; k++) {
+      if (k !== i) {
+        let factor = A[k][i];
+        if (Math.abs(factor) > 1e-9) {
+          for (let j = 0; j < n + 1; j++) {
+            A[k][j] -= factor * A[i][j];
+          }
+          mostrarPaso(`${-factor.toFixed(2)}×F${i+1} + F${k+1} → F${k+1}`, JSON.parse(JSON.stringify(A)));
+        }
+      }
+    }
+  }
+
+  // Mostrar solución final (usando la lógica de tu 5x5)
+  const solucion = document.createElement("div");
+  solucion.className = "resultado-final";
+  
+  let solHTML = `<strong>Solución final:</strong><br>`;
+  solHTML += `X = ${A[0][n].toFixed(2)}<br>`;
+  solHTML += `Y = ${A[1][n].toFixed(2)}<br>`;
+  solHTML += `Z = ${A[2][n].toFixed(2)}<br>`;
+  solHTML += "<br>Proceso completado :)";
+  
+  solucion.innerHTML = solHTML;
+  resultado.appendChild(solucion);
+}
+</script>
+
+<!-- SCRIPT: Sistema 4x4 -->
+<script>
+  function generarMatriz4x4() {
+  sistemaActual = "4x4";
+  const caja = document.getElementById("matriz-caja");
+  caja.innerHTML = "";
+  document.getElementById("resultado").innerHTML = "";
+  document.getElementById("titulo-sistema").textContent = "Sistema 4×4: Ingresa los valores";
+
+  for (let i = 0; i < 4; i++) {
+    for (let j = 0; j < 5; j++) {
+      const input = document.createElement("input");
+      input.type = "number";
+      input.placeholder = j < 4 ? `a${i+1}${j+1}` : `b${i+1}`;
+      input.id = `m${i}${j}`;
+      caja.appendChild(input);
+    }
+  }
+
+  caja.style.gridTemplateColumns = "repeat(5, 80px)";
+}
+
+function resolverSistema4x4() {
+  const resultado = document.getElementById("resultado");
+  resultado.innerHTML = "";
+
+  const n = 4;
+  const A = [];
+
+  // Capturar matriz aumentada
+  for (let i = 0; i < n; i++) {
+    const fila = [];
+    for (let j = 0; j < n + 1; j++) {
+      const val = parseFloat(document.getElementById(`m${i}${j}`)?.value);
+      if (isNaN(val)) {
+        alert("Por favor, completa todos los campos.");
+        return;
+      }
+      fila.push(val);
+    }
+    A.push(fila);
+  }
+
+  mostrarPaso("Matriz aumentada inicial", JSON.parse(JSON.stringify(A)));
+
+  for (let i = 0; i < n; i++) {
+    if (Math.abs(A[i][i]) < 1e-9) {
+      let cambio = false;
+      for (let k = i + 1; k < n; k++) {
+        if (Math.abs(A[k][i]) > 1e-9) {
+          [A[i], A[k]] = [A[k], A[i]];
+          cambio = true;
+          mostrarPaso(`Intercambio F${i+1} ↔ F${k+1}`, JSON.parse(JSON.stringify(A)));
+          break;
+        }
+      }
+      if (!cambio) {
+        resultado.innerHTML = "<strong>No hay solución.</strong>";
+        return;
+      }
+    }
+
+    let pivote = A[i][i];
+    if (Math.abs(pivote - 1.0) > 1e-9) {
+      for (let j = 0; j < n + 1; j++) A[i][j] /= pivote;
+      mostrarPaso(`Normalizar F${i+1}`, JSON.parse(JSON.stringify(A)));
+    }
+
+    for (let k = 0; k < n; k++) {
+      if (k !== i) {
+        let factor = A[k][i];
+        if (Math.abs(factor) > 1e-9) {
+          for (let j = 0; j < n + 1; j++) {
+            A[k][j] -= factor * A[i][j];
+          }
+          mostrarPaso(`${factor.toFixed(2)}×F${i+1} + F${k+1} → F${k+1}`, JSON.parse(JSON.stringify(A)));
+        }
+      }
+    }
+  }
+
+  const solucion = document.createElement("div");
+  solucion.className = "resultado-final";
+  solucion.innerHTML = `<strong>Solución final:</strong><br>` +
+    `W = ${A[0][4].toFixed(2)}<br>` +
+    `X = ${A[1][4].toFixed(2)}<br>` +
+    `Y = ${A[2][4].toFixed(2)}<br>` +
+    `Z = ${A[3][4].toFixed(2)}<br><br>Proceso completado :)`;
+  resultado.appendChild(solucion);
+}
+</script>
+
+<!-- SCRIPT: Sistema 5×5 -->
+<script>
+function generarMatriz5x5() {
+  sistemaActual = "5x5";
+  const caja = document.getElementById("matriz-caja");
+  caja.innerHTML = "";
+  document.getElementById("resultado").innerHTML = "";
+  document.getElementById("titulo-sistema").textContent = "Sistema 5×5: Ingresa los valores";
+
+  for (let i = 0; i < 5; i++) {
+    for (let j = 0; j < 6; j++) {
+      const input = document.createElement("input");
+      input.type = "number";
+      input.placeholder = j < 5 ? `a${i+1}${j+1}` : `b${i+1}`;
+      input.id = `m${i}${j}`;
+      caja.appendChild(input);
+    }
+  }
+  caja.style.gridTemplateColumns = "repeat(6, 80px)";
+}
+
+// --- ESTA ES LA FUNCIÓN MEJORADA ---
+function resolverSistema5x5() {
+  const resultado = document.getElementById("resultado");
+  resultado.innerHTML = "";
+
+  const n = 5; // <--- ÚNICO CAMBIO DE LÓGICA (antes era 4)
+  const A = [];
+
+  // Capturar matriz aumentada
+  for (let i = 0; i < n; i++) {
+    const fila = [];
+    for (let j = 0; j < n + 1; j++) {
+      const val = parseFloat(document.getElementById(`m${i}${j}`)?.value);
+      if (isNaN(val)) {
+        alert("Por favor, completa todos los campos.");
+        return;
+      }
+      fila.push(val);
+    }
+    A.push(fila);
+  }
+
+  mostrarPaso("Matriz aumentada inicial", JSON.parse(JSON.stringify(A)));
+
+  // Algoritmo de Gauss-Jordan (copiado de tu 4x4)
+  for (let i = 0; i < n; i++) {
+    
+    // 1. Pivoteo (buscar un pivote no cero si A[i][i] es 0)
+    if (Math.abs(A[i][i]) < 1e-9) {
+      let cambio = false;
+      for (let k = i + 1; k < n; k++) {
+        if (Math.abs(A[k][i]) > 1e-9) {
+          [A[i], A[k]] = [A[k], A[i]]; // Intercambiar filas
+          cambio = true;
+          // --- MUESTRA EL PASO ---
+          mostrarPaso(`Intercambio F${i+1} ↔ F${k+1}`, JSON.parse(JSON.stringify(A)));
+          break;
+        }
+      }
+      if (!cambio) {
+        resultado.innerHTML = "<strong>El sistema no tiene solución única.</strong>";
+        return;
+      }
+    }
+
+    // 2. Normalizar la fila del pivote (hacer el pivote 1)
+    let pivote = A[i][i];
+    if (Math.abs(pivote - 1.0) > 1e-9) {
+      for (let j = 0; j < n + 1; j++) A[i][j] /= pivote;
+       // --- MUESTRA EL PASO ---
+      mostrarPaso(`Normalizar F${i+1} (F${i+1} / ${pivote.toFixed(2)})`, JSON.parse(JSON.stringify(A)));
+    }
+
+    // 3. Eliminar en otras filas (hacer ceros en la columna del pivote)
+    for (let k = 0; k < n; k++) {
+      if (k !== i) {
+        let factor = A[k][i];
+        if (Math.abs(factor) > 1e-9) {
+          for (let j = 0; j < n + 1; j++) {
+            A[k][j] -= factor * A[i][j];
+          }
+           // --- MUESTRA EL PASO ---
+          mostrarPaso(`${-factor.toFixed(2)}×F${i+1} + F${k+1} → F${k+1}`, JSON.parse(JSON.stringify(A)));
+        }
+      }
+    }
+  }
+
+  // Mostrar solución final
+  const solucion = document.createElement("div");
+  solucion.className = "resultado-final";
+  
+  // Genera el HTML de la solución dinámicamente
+  let solHTML = `<strong>Solución final:</strong><br>`;
+  for (let i = 0; i < n; i++) {
+    solHTML += `x${i+1} = ${A[i][n].toFixed(2)}<br>`; // A[i][n] es la columna de resultados
+  }
+  solHTML += "<br>Proceso completado :)";
+  
+  solucion.innerHTML = solHTML;
+  resultado.appendChild(solucion);
+}
+</script>
+
+<!-- SCRIPT: Función de control y visualización -->
+<script>
+// Inicia en null para saber si el usuario ha presionado un botón
+let sistemaActual = null; 
+
+function resolverSistema() {
+  const resultado = document.getElementById("resultado");
+  resultado.innerHTML = ""; // Limpia resultados antes de empezar
+
+  if (sistemaActual === "2x2") {
+    resolverSistema2x2();
+  } else if (sistemaActual === "3x3") { // <-- AQUÍ ESTÁ EL CAMBIO
+    resolverSistema3x3();
+  } else if (sistemaActual === "4x4") {
+    resolverSistema4x4();
+  } else if (sistemaActual === "5x5") {
+    resolverSistema5x5(); 
+  } else {
+    // Maneja el caso donde no se ha seleccionado nada
+    resultado.innerHTML = "<strong>Por favor, selecciona un tamaño de matriz primero.</strong>";
+  }
+}
+
+function mostrarPaso(titulo, matriz) {
+  const paso = document.createElement("div");
+  paso.className = "paso";
+  
+  const matrizHTML = matriz.map(fila => 
+    `[ ${fila.map(n => n.toFixed(2).padStart(7, ' ')).join("   ")} ]`
+  ).join("<br>");
+
+  paso.innerHTML = `<strong>${titulo}</strong><br><pre>${matrizHTML}</pre>`;
+  
+  const resultadoCaja = document.getElementById("resultado");
+  resultadoCaja.appendChild(paso);
+  
+  // Scroll automático al fondo para ver el último paso
+  resultadoCaja.scrollTop = resultadoCaja.scrollHeight;
+}
+</script>
+
+<!-- Section proyecto --> 
+<section id="proyecto" class="section">
+  <h2>Nuestro Proyecto</h2>
+  
+  <div class="proyecto-contenido">
+    
+    <div class="video-columna">
+      <video src="CSS/IMG/Minecraft_20240929011818.mp4" controls height="400"></video>
+    </div>
+    
+<div class="info-recuadros">
+
+  <div class="recuadro">
+    <div class="recuadro-logo">
+      <img src="CSS/IMG/ImagenHTML.png" alt="Logo del Proyecto">
+    </div>
+    <div class="recuadro-info">
+      <h4>HTML</h4>
+      <p>Se usó HTML para definir la estructura de la página. Esto incluye las secciones, 
+      los campos de texto y los contenedores que reciben y muestran los resultados.</p>
+    </div>
+  </div>
+
+  <div class="recuadro">
+    <div class="recuadro-logo">
+      <img src="CSS/IMG/ImagenCSS.png" alt="Logo del Proyecto">
+    </div>
+    <div class="recuadro-info">
+      <h4>CSS</h4>
+      <p>CSS fue el encargado de todo el diseño visual. Definió los colores, 
+        las fuentes, y el acomodo de los elementos. Haciendo la interfaz grafica con la que interactuamos.</p>
+    </div>
+  </div>
+
+  <div class="recuadro">
+    <div class="recuadro-logo">
+      <img src="CSS/IMG/ImagenJavascript.png" alt="Logo del Proyecto">
+    </div>
+    <div class="recuadro-info">
+      <h4>JavaScript</h4>
+      <p>JavaScript le da toda la interactividad a la página. Es el cerebro que genera las matrices, 
+        lee los valores que ingresas, mostrando cada paso.</p>
+    </div>
+  </div>
+
+  <div class="recuadro">
+    <div class="recuadro-logo">
+      <img src="CSS/IMG/ImagenC++.png" alt="Logo del Proyecto">
+    </div>
+    <div class="recuadro-info">
+      <h4>C++</h4>
+      <p>Aquí nació la lógica pura del proyecto. Usamos C++ para diseñar y probar el algoritmo. 
+        Esos códigos iniciales fueron la base fundamental que luego se tradujo a JavaScript.</p>
+    </div>
+  </div>
+
+</div>
+    
+  </div>
+</section>
+
+    <script>
+    window.addEventListener('scroll', function() {
+        const heroNav = document.querySelector('.hero-nav');
+        if (window.scrollY > window.innerHeight * 0.5) {
+            heroNav.classList.add('scrolled');
+        } else {
+            heroNav.classList.remove('scrolled');
+        }
+    });
+    </script>
+
+
+</body>
+</html>
