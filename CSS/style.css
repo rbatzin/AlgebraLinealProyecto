@@ -641,8 +641,37 @@
   font-size: 0.9em;
   color: #777;
 }
+.proyecto-contenido {
+  display: flex;
+  align-items: flex-start;  /* Alinea todo al borde superior */
+  justify-content: center; /* Centra el bloque general en la sección */
+  gap: 30px;               /* Espacio entre el video y la columna de recuadros */
+  flex-wrap: wrap;         /* Esencial para que se apilen en móviles */
+}
+
+/* Regla clave para que el video tenga una proporción responsiva (16:9) */
+.video-columna {
+  position: relative;
+  height: 300px;
+  width: 650px;
+  padding-top: 32.25%; /* Crea la proporción 16:9 (9/16 = 56.25%) */
+  height: 0; 
+  overflow: hidden;
+  border-radius: 8px;
+}
+
+/* El iframe o la imagen deben ser absolutos para llenar el espacio del padding-top */
+.video-columna iframe { /* Si estás usando una imagen en lugar de iframe */
+    position: absolute; 
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Asegura que la imagen/video se vea bien */
+}
+
+
 /* Scroll suave */
 html {
   scroll-behavior: smooth;
-
 }
