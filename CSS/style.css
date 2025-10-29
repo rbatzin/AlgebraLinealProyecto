@@ -670,8 +670,78 @@
     object-fit: cover; /* Asegura que la imagen/video se vea bien */
 }
 
+@media (max-width: 768px) {
+
+  /* 1. GENERALES */
+  /* Reducimos el espacio en blanco en los lados */
+  .section {
+    padding: 40px 20px;
+  }
+
+  /* Títulos más pequeños */
+  .section h2 {
+    font-size: 1.8em;
+  }
+
+  /* 2. BARRA DE NAVEGACIÓN SUPERIOR */
+  .navbar {
+    padding: 15px 20px;
+  }
+  .navbar .btn-empezar {
+    display: none; /* Ocultamos el botón "Empezar" (opcional) */
+  }
+
+  /* 3. SECCIÓN DE INICIO */
+  /* Apilamos el video y el texto verticalmente */
+  .menu-inicio-contenido {
+    flex-direction: column;
+    gap: 40px;
+  }
+  .titulo-inicio {
+    font-size: 2em; /* Título más pequeño */
+  }
+
+  /* 4. MENÚ FLOTANTE */
+  .hero-nav {
+    gap: 15px; /* Menos espacio entre enlaces */
+    padding: 10px 15px;
+    /* Hacemos que se pueda scrollear horizontalmente si no cabe */
+    overflow-x: auto;
+    justify-content: flex-start;
+  }
+
+  /* 5. SECCIONES DE 2 COLUMNAS (Historia, Instrucciones, Proyecto) */
+  /* ¡Esta es la regla más importante! */
+  /* Forzamos a que todas las columnas se apilen verticalmente */
+  .historia-contenido,
+  .instrucciones-contenido,
+  .proyecto-contenido {
+    flex-direction: column;
+    align-items: center; /* Centramos el contenido apilado */
+  }
+
+  /* 6. CALCULADORA */
+  /* Hacemos que la caja de la matriz tenga scroll horizontal
+     si se desborda, para que no rompa la página */
+  .matriz-caja {
+    overflow-x: auto;
+    padding-bottom: 15px; /* Espacio para la barra de scroll */
+  }
+  
+  /* 7. PIE DE PÁGINA (Footer) */
+  .footer-container {
+    flex-direction: column; /* Apila las columnas del footer */
+    align-items: center;
+    text-align: center;
+  }
+  .footer-column {
+    max-width: 100%;
+  }
+}
+
 
 /* Scroll suave */
 html {
   scroll-behavior: smooth;
 }
+
